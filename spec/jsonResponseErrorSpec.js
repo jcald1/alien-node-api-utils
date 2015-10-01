@@ -16,15 +16,21 @@ var mockReqNoSession = {
 
 var mockRes = {
   json   : R.identity,
+  status : function() {
+    return mockRes;
+  },
   locals : {}
 };
 
 var FAKE_HTTP_STATUS_CODE_ERROR = 1337;
 
 var FAKE_ERROR_RESPONSE = {
-  statusCode : FAKE_HTTP_STATUS_CODE_ERROR,
-  foo        : 'bar'
-};
+      statusCode : FAKE_HTTP_STATUS_CODE_ERROR,
+      foo        : 'bar'
+    },
+    FAKE_ERROR_RESPONSE_TRIMMED = {
+      foo : 'bar'
+    };
 
 var EXPECTED_RESPONSE_DATA_NO_SESSION = {
       statusCode : FAKE_HTTP_STATUS_CODE_ERROR,
@@ -32,7 +38,7 @@ var EXPECTED_RESPONSE_DATA_NO_SESSION = {
         notice : [],
         error  : []
       },
-      data       : FAKE_ERROR_RESPONSE
+      data       : FAKE_ERROR_RESPONSE_TRIMMED
     },
     EXPECTED_RESPONSE_DATA_WITH_SESSION = {
       statusCode : FAKE_HTTP_STATUS_CODE_ERROR,
@@ -40,7 +46,7 @@ var EXPECTED_RESPONSE_DATA_NO_SESSION = {
         notice : mockReqWithSession.flash('notice'),
         error  : mockReqWithSession.flash('error')
       },
-      data       : FAKE_ERROR_RESPONSE
+      data       : FAKE_ERROR_RESPONSE_TRIMMED
     };
 
 describe('makeJsonResponseError without session', function() {
