@@ -1,10 +1,10 @@
 {
   "name"            : "alien-node-api-utils",
-  "version"         : "0.0.4",
+  "version"         : "0.0.5",
   "description"     : "Helper functions for API handling on NodeJS",
   "main"            : "lib/API.js",
   "dependencies"    : {
-    "ramda"       : "^0.17.x"
+    "ramda"       : "^0.18.x"
   },
   "devDependencies" : {
     "coveralls" : "^2.11.2",
