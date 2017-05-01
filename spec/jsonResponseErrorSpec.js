@@ -1,92 +1,92 @@
 'use strict';
 
-var R                 = require('ramda'),
-    jsonResponseError = require('../lib/methods/jsonResponseError');
+const R                 = require('ramda'),
+      jsonResponseError = require('../lib/methods/jsonResponseError');
 
-var mockReqWithSession = {
+const mockReqWithSession = {
   session : {
     flash : {}
   },
-  flash   : R.identity
-};
-
-var mockReqNoSession = {
   flash : R.identity
 };
 
-var mockRes = {
+const mockReqNoSession = {
+  flash : R.identity
+};
+
+const mockRes = {
   json   : R.identity,
-  status : function() {
+  status : () => {
     return mockRes;
   },
   locals : {}
 };
 
-var FAKE_HTTP_STATUS_CODE_ERROR = 1337;
+const FAKE_HTTP_STATUS_CODE_ERROR = 1337;
 
-var FAKE_ERROR_RESPONSE = {
-      statusCode : FAKE_HTTP_STATUS_CODE_ERROR,
-      foo        : 'bar'
-    },
-    FAKE_ERROR_RESPONSE_TRIMMED = {
-      foo : 'bar'
-    };
-
-var EXPECTED_RESPONSE_DATA_NO_SESSION = {
-      statusCode : FAKE_HTTP_STATUS_CODE_ERROR,
-      flash      : {
-        notice : [],
-        error  : []
+const FAKE_ERROR_RESPONSE = {
+        statusCode : FAKE_HTTP_STATUS_CODE_ERROR,
+        foo        : 'bar'
       },
-      data       : FAKE_ERROR_RESPONSE_TRIMMED
-    },
-    EXPECTED_RESPONSE_DATA_WITH_SESSION = {
-      statusCode : FAKE_HTTP_STATUS_CODE_ERROR,
-      flash      : {
-        notice : mockReqWithSession.flash('notice'),
-        error  : mockReqWithSession.flash('error')
+      FAKE_ERROR_RESPONSE_TRIMMED = {
+        foo : 'bar'
+      };
+
+const EXPECTED_RESPONSE_DATA_NO_SESSION = {
+        statusCode : FAKE_HTTP_STATUS_CODE_ERROR,
+        flash      : {
+          notice : [],
+          error  : []
+        },
+        data       : FAKE_ERROR_RESPONSE_TRIMMED
       },
-      data       : FAKE_ERROR_RESPONSE_TRIMMED
-    };
+      EXPECTED_RESPONSE_DATA_WITH_SESSION = {
+        statusCode : FAKE_HTTP_STATUS_CODE_ERROR,
+        flash      : {
+          notice : mockReqWithSession.flash('notice'),
+          error  : mockReqWithSession.flash('error')
+        },
+        data       : FAKE_ERROR_RESPONSE_TRIMMED
+      };
 
-describe('makeJsonResponseError without session', function() {
+describe('makeJsonResponseError without session', () => {
 
-  var response = {};
+  let response = {};
 
-  beforeEach(function() {
+  beforeEach(() => {
     spyOn(mockRes, 'json');
     response = jsonResponseError(mockReqNoSession, mockRes, FAKE_ERROR_RESPONSE);
   });
 
-  it('should execute the mock res.json function', function() {
+  it('should execute the mock res.json function', () => {
     expect(mockRes.json).toHaveBeenCalledWith(EXPECTED_RESPONSE_DATA_NO_SESSION);
   });
 
 });
 
-describe('makeJsonResponseError with session', function() {
+describe('makeJsonResponseError with session', () => {
 
-  var response = {};
+  let response = {};
 
-  beforeEach(function() {
+  beforeEach(() => {
     spyOn(mockRes, 'json');
     response = jsonResponseError(mockReqWithSession, mockRes, FAKE_ERROR_RESPONSE);
   });
 
-  it('should execute the mock res.json function', function() {
+  it('should execute the mock res.json function', () => {
     expect(mockRes.json).toHaveBeenCalledWith(EXPECTED_RESPONSE_DATA_WITH_SESSION);
   });
 
 });
 
-describe('mockRes.json', function() {
-  it('should return the value given', function() {
+describe('mockRes.json', () => {
+  it('should return the value given', () => {
     expect(mockRes.json('foo')).toBe('foo');
   });
 });
 
-describe('mockReqWithSession.flash', function() {
-  it('should return the value given', function() {
+describe('mockReqWithSession.flash', () => {
+  it('should return the value given', () => {
     expect(mockReqWithSession.flash('foo')).toBe('foo');
   });
 });

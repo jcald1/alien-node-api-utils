@@ -1,65 +1,65 @@
 'use strict';
 
-var R                    = require('ramda'),
-    makeJsonResponseBody = require('../lib/methods/_makeJsonResponseBody');
+const R                    = require('ramda'),
+      makeJsonResponseBody = require('../lib/methods/_makeJsonResponseBody');
 
-var FAKE_STATUS_CODE = 1337;
+const FAKE_STATUS_CODE = 1337;
 
-var mockReq = {
+const mockReq = {
   flash   : R.identity,
   session : {
     flash : {}
   }
 };
 
-describe('makeJsonResponseBody without session', function() {
+describe('makeJsonResponseBody without session', () => {
 
-  var response = {};
+  let response = {};
 
-  beforeEach(function() {
+  beforeEach(() => {
     spyOn(mockReq, 'flash');
     response = makeJsonResponseBody(FAKE_STATUS_CODE, mockReq.flash);
   });
 
-  it('should assign the status code to the response body', function() {
+  it('should assign the status code to the response body', () => {
     expect(R.prop('statusCode', response)).toBe(FAKE_STATUS_CODE);
   });
 
-  it('should invoke the provided flash function with `notice` upon assignment', function() {
+  it('should invoke the provided flash function with `notice` upon assignment', () => {
     expect(mockReq.flash).not.toHaveBeenCalled();
   });
 
-  it('should invoke the provided flash function with `error` upon assignment', function() {
+  it('should invoke the provided flash function with `error` upon assignment', () => {
     expect(mockReq.flash).not.toHaveBeenCalled;
   });
 
 });
 
-describe('makeJsonResponseBody with session', function() {
+describe('makeJsonResponseBody with session', () => {
 
-  var response = {};
+  let response = {};
 
-  beforeEach(function() {
+  beforeEach(() => {
     spyOn(mockReq, 'flash');
     response = R.apply(R.bind(makeJsonResponseBody, mockReq), [FAKE_STATUS_CODE, mockReq.flash]);
   });
 
-  it('should assign the status code to the response body', function() {
+  it('should assign the status code to the response body', () => {
     expect(R.prop('statusCode', response)).toBe(FAKE_STATUS_CODE);
   });
 
-  it('should invoke the provided flash function with `notice` upon assignment', function() {
+  it('should invoke the provided flash function with `notice` upon assignment', () => {
     expect(mockReq.flash).toHaveBeenCalledWith('notice');
   });
 
-  it('should invoke the provided flash function with `error` upon assignment', function() {
+  it('should invoke the provided flash function with `error` upon assignment', () => {
     expect(mockReq.flash).toHaveBeenCalledWith('error');
   });
 
 });
 
-describe('mockReq.flash', function() {
-  it('should return the value given', function() {
+describe('mockReq.flash', () => {
+  it('should return the value given', () => {
     expect(mockReq.flash('foo')).toBe('foo');
   });
 });
