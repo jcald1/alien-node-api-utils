@@ -14,6 +14,9 @@ const mockReqNoSession = {
   flash : R.identity
 };
 
+const mockReqNoFlash = {
+  session : {}
+};
 
 const mockRes = {
   json   : R.identity,
@@ -52,7 +55,22 @@ describe('makeJsonResponseSuccess without session', () => {
     response = jsonResponseSuccess(mockReqNoSession, mockRes, FAKE_DATABASE_RESPONSE);
   });
 
-  it('should execute the mock res.json function', () => {
+  it('executes the mock res.json function', () => {
+    expect(mockRes.json).toHaveBeenCalledWith(FAKE_API_RESPONSE_NO_SESSION);
+  });
+
+});
+
+describe('makeJsonResponseSuccess without flash', () => {
+
+  let response = {};
+
+  beforeEach(() => {
+    spyOn(mockRes, 'json');
+    response = jsonResponseSuccess(mockReqNoFlash, mockRes, FAKE_DATABASE_RESPONSE);
+  });
+
+  it('executes the mock res.json function', () => {
     expect(mockRes.json).toHaveBeenCalledWith(FAKE_API_RESPONSE_NO_SESSION);
   });
 
@@ -67,20 +85,20 @@ describe('makeJsonResponseSuccess with session', () => {
     response = jsonResponseSuccess(mockReqWithSession, mockRes, FAKE_DATABASE_RESPONSE);
   });
 
-  it('should execute the mock res.json function', () => {
+  it('executes the mock res.json function', () => {
     expect(mockRes.json).toHaveBeenCalledWith(FAKE_API_RESPONSE_WITH_SESSION);
   });
 
 });
 
 describe('mockRes.json', () => {
-  it('should return the value given', () => {
+  it('returns the value given', () => {
     expect(mockRes.json('foo')).toBe('foo');
   });
 });
 
 describe('mockReqWithSession.flash', () => {
-  it('should return the value given', () => {
+  it('returns the value given', () => {
     expect(mockReqWithSession.flash('foo')).toBe('foo');
   });
 });
