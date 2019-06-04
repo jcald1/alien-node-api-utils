@@ -1,0 +1,35 @@
+{
+  "name"            : "alien-node-api-utils",
+  "version"         : "0.1.2",
+  "description"     : "Helper functions for API handling on NodeJS",
+  "main"            : "lib/API.js",
+  "dependencies"    : {
+    "ramda"   : "^0.x.x",
+    "aybabtu" : "*"
+  },
+  "devDependencies" : {
+    "coveralls" : "^2.11.2",
+    "istanbul"  : "^0.3.13",
+    "jasmine"   : "^2.3.1"
+  },
+  "scripts"         : {
+    "test" : "./node_modules/.bin/istanbul cover ./node_modules/.bin/jasmine"
+  },
+  "repository"      : {
+    "type" : "git",
+    "url"  : "https://github.com/aliencreations/alien-node-api-utils.git"
+  },
+  "keywords"        : [
+    "aliencreations",
+    "api",
+    "util",
+    "node",
+    "ramda"
+  ],
+  "author"          : "Sean Cannon",
+  "license"         : "MIT",
+  "bugs"            : {
+    "url" : "https://github.com/aliencreations/alien-node-api-utils/issues"
+  },
+  "homepage"        : "https://github.com/aliencreations/alien-node-api-utils"
+}
