@@ -1,6 +1,6 @@
 {
   "name"            : "alien-node-api-utils",
-  "version"         : "0.1.2",
+  "version"         : "0.1.3",
   "description"     : "Helper functions for API handling on NodeJS",
   "main"            : "lib/API.js",
   "dependencies"    : {
