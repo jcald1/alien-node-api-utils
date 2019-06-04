@@ -1,4 +1,4 @@
-node_modules
-coverage
-.idea
-.DS_Store
+node_modules/
+.idea/
+coverage/
+DS_Store

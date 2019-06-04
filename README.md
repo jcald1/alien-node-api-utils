@@ -41,3 +41,14 @@ function getUsers(req, res) {
 module.exports = getUsers;
 
 ```
+
+## Changelog
+
+##### 0.1.1
+  - set node version to 6 in travis.yml for es6 support
+ 
+##### 0.1.2
+  - add support for missing req.flash
+ 
+##### 0.1.3
+  - fix circular json in response

@@ -7,7 +7,7 @@ const mockReqWithSession = {
   session : {
     flash : {}
   },
-  flash : R.identity
+  flash   : R.identity
 };
 
 const mockReqNoFlash = {
@@ -23,12 +23,16 @@ const mockRes = {
   status : () => {
     return mockRes;
   },
-  locals : {}
+  locals : {},
+  set    : () => {
+  },
+  send   : R.identity
+
 };
 
 const FAKE_HTTP_STATUS_CODE_ERROR = 1337;
 
-const FAKE_ERROR_RESPONSE = {
+const FAKE_ERROR_RESPONSE         = {
         statusCode : FAKE_HTTP_STATUS_CODE_ERROR,
         foo        : 'bar'
       },
@@ -36,34 +40,34 @@ const FAKE_ERROR_RESPONSE = {
         foo : 'bar'
       };
 
-const EXPECTED_RESPONSE_DATA_NO_SESSION = {
+const EXPECTED_RESPONSE_DATA_NO_SESSION   = JSON.stringify({
         statusCode : FAKE_HTTP_STATUS_CODE_ERROR,
         flash      : {
           notice : [],
           error  : []
         },
         data       : FAKE_ERROR_RESPONSE_TRIMMED
-      },
-      EXPECTED_RESPONSE_DATA_WITH_SESSION = {
+      }),
+      EXPECTED_RESPONSE_DATA_WITH_SESSION = JSON.stringify({
         statusCode : FAKE_HTTP_STATUS_CODE_ERROR,
         flash      : {
           notice : mockReqWithSession.flash('notice'),
           error  : mockReqWithSession.flash('error')
         },
         data       : FAKE_ERROR_RESPONSE_TRIMMED
-      };
+      });
 
 describe('makeJsonResponseError without session', () => {
 
   let response = {};
 
   beforeEach(() => {
-    spyOn(mockRes, 'json');
+    spyOn(mockRes, 'send');
     response = jsonResponseError(mockReqNoSession, mockRes, FAKE_ERROR_RESPONSE);
   });
 
-  it('executes the mock res.json function', () => {
-    expect(mockRes.json).toHaveBeenCalledWith(EXPECTED_RESPONSE_DATA_NO_SESSION);
+  it('executes the mock res.send function', () => {
+    expect(mockRes.send).toHaveBeenCalledWith(EXPECTED_RESPONSE_DATA_NO_SESSION);
   });
 
 });
@@ -73,12 +77,12 @@ describe('makeJsonResponseError without flash', () => {
   let response = {};
 
   beforeEach(() => {
-    spyOn(mockRes, 'json');
+    spyOn(mockRes, 'send');
     response = jsonResponseError(mockReqNoFlash, mockRes, FAKE_ERROR_RESPONSE);
   });
 
-  it('executes the mock res.json function', () => {
-    expect(mockRes.json).toHaveBeenCalledWith(EXPECTED_RESPONSE_DATA_NO_SESSION);
+  it('executes the mock res.send function', () => {
+    expect(mockRes.send).toHaveBeenCalledWith(EXPECTED_RESPONSE_DATA_NO_SESSION);
   });
 
 });
@@ -88,19 +92,19 @@ describe('makeJsonResponseError with session', () => {
   let response = {};
 
   beforeEach(() => {
-    spyOn(mockRes, 'json');
+    spyOn(mockRes, 'send');
     response = jsonResponseError(mockReqWithSession, mockRes, FAKE_ERROR_RESPONSE);
   });
 
-  it('executes the mock res.json function', () => {
-    expect(mockRes.json).toHaveBeenCalledWith(EXPECTED_RESPONSE_DATA_WITH_SESSION);
+  it('executes the mock res.send function', () => {
+    expect(mockRes.send).toHaveBeenCalledWith(EXPECTED_RESPONSE_DATA_WITH_SESSION);
   });
 
 });
 
-describe('mockRes.json', () => {
+describe('mockRes.send', () => {
   it('returns the value given', () => {
-    expect(mockRes.json('foo')).toBe('foo');
+    expect(mockRes.send('foo')).toBe('foo');
   });
 });
 
