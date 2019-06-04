@@ -41,3 +41,9 @@ function getUsers(req, res) {
 module.exports = getUsers;
 
 ```
+
+## Changelog
+
+##### 0.1.3
+
+  - fix circular json in response
